@@ -17,7 +17,7 @@ interface CartStore {
     updateQuantity: (id: number, quantity: number) => void
     toggleCart: () => void
     closeCart: () => void
-    clearCart: () => void  // ← Make sure this is here
+    clearCart: () => void
     getTotalItems: () => number
     getTotalPrice: () => string
 }
@@ -61,7 +61,7 @@ export const useCartStore = create<CartStore>()(
 
             closeCart: () => set({ isOpen: false }),
 
-            clearCart: () => set({ items: [] }),  // ← Add this function
+            clearCart: () => set({ items: [] }),
 
             getTotalItems: () => {
                 return get().items.reduce((total, item) => total + item.quantity, 0)
@@ -69,10 +69,12 @@ export const useCartStore = create<CartStore>()(
 
             getTotalPrice: () => {
                 const total = get().items.reduce((total, item) => {
-                    const price = parseFloat(item.price.replace('€', '').replace(',', ''))
+                    // Remove currency symbol (KSh, €, $, etc.) and commas, then parse to number
+                    const priceValue = item.price.replace(/[^0-9.,-]/g, '').replace(/,/g, '')
+                    const price = parseFloat(priceValue)
                     return total + price * item.quantity
                 }, 0)
-                return `€${total.toLocaleString()}`
+                return `KSh ${total.toLocaleString()}`
             },
         }),
         {
