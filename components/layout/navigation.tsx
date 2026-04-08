@@ -21,6 +21,18 @@ export function Navigation() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    // Debug: log cart functions
+    useEffect(() => {
+        if (mounted) {
+            console.log('Cart store loaded:', { toggleCart, getTotalItems })
+        }
+    }, [mounted, toggleCart, getTotalItems])
+
+    const handleCartClick = () => {
+        console.log('Cart button clicked')
+        toggleCart()
+    }
+
     const navItems = [
         { name: 'COLLECTION', href: '/collection' },
         { name: 'EDITORIALS', href: '/editorials' },
@@ -59,8 +71,12 @@ export function Navigation() {
                         ))}
                     </div>
 
-                    {/* Cart Icon */}
-                    <button onClick={toggleCart} className="relative group">
+                    {/* Cart Icon - Updated with handleCartClick */}
+                    <button
+                        onClick={handleCartClick}
+                        className="relative group cursor-pointer"
+                        aria-label="Shopping cart"
+                    >
                         <ShoppingBag className="w-5 h-5" />
                         {mounted && getTotalItems() > 0 && (
                             <span className="absolute -top-2 -right-2 w-4 h-4 bg-luxury-gold rounded-full text-[10px] flex items-center justify-center text-luxury-black">

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Navigation } from '@/components/layout/navigation'
-import { CustomCursor } from '@/components/ui/cursor'
+import { CartDrawer } from '@/components/cart/CartDrawer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,11 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <CustomCursor />
         <Navigation />
         <main className="relative">
           {children}
         </main>
+        <CartDrawer />
       </body>
     </html>
   )

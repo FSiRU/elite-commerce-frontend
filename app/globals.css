@@ -1,15 +1,6 @@
-/* Hide default cursor on desktop */
-@media (min-width: 768px) {
-  * {
-    cursor: none;
-  }
-}
-
-/* Show default cursor on mobile */
-@media (max-width: 768px) {
-  * {
-    cursor: auto;
-  }
+/* Normal cursor everywhere */
+* {
+  cursor: auto;
 }
 
 @import "tailwindcss";
@@ -99,4 +90,29 @@ html {
 
 .bg-size-200 {
   background-size: 200% 100%;
+}
+
+/* ============================================ */
+/* CART DRAWER FIXES - Ensures drawer is on top */
+/* ============================================ */
+
+/* Cart drawer backdrop - highest priority */
+.fixed.inset-0.bg-black\/80 {
+  z-index: 9998 !important;
+}
+
+/* Cart drawer container */
+.fixed.right-0.top-0.h-full {
+  z-index: 9999 !important;
+}
+
+/* Ensure main content doesn't interfere */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Navigation should be below cart drawer */
+nav.fixed {
+  z-index: 100 !important;
 }

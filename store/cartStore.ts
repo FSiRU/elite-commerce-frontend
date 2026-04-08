@@ -1,4 +1,3 @@
-
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -18,6 +17,7 @@ interface CartStore {
     updateQuantity: (id: number, quantity: number) => void
     toggleCart: () => void
     closeCart: () => void
+    clearCart: () => void  // ← Make sure this is here
     getTotalItems: () => number
     getTotalPrice: () => string
 }
@@ -60,6 +60,8 @@ export const useCartStore = create<CartStore>()(
             toggleCart: () => set({ isOpen: !get().isOpen }),
 
             closeCart: () => set({ isOpen: false }),
+
+            clearCart: () => set({ items: [] }),  // ← Add this function
 
             getTotalItems: () => {
                 return get().items.reduce((total, item) => total + item.quantity, 0)
