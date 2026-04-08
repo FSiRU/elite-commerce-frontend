@@ -76,3 +76,27 @@ html {
 .gold-gradient {
   background: linear-gradient(135deg, #C6A43F 0%, #E8D5A5 50%, #C6A43F 100%);
 }
+
+/* Gradient animation for luxury text */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 4s linear infinite;
+}
+
+.bg-size-200 {
+  background-size: 200% 100%;
+}

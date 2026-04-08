@@ -1,4 +1,3 @@
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -15,8 +14,8 @@ export function CustomCursor() {
 
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
-            cursorX.set(e.clientX - 16)
-            cursorY.set(e.clientY - 16)
+            cursorX.set(e.clientX - 20)
+            cursorY.set(e.clientY - 20)
         }
 
         const handleMouseEnter = () => setIsHovering(true)
@@ -24,7 +23,7 @@ export function CustomCursor() {
 
         window.addEventListener('mousemove', moveCursor)
 
-        const interactiveElements = document.querySelectorAll('a, button, .interactive')
+        const interactiveElements = document.querySelectorAll('a, button, .group, [role="button"]')
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', handleMouseEnter)
             el.addEventListener('mouseleave', handleMouseLeave)
@@ -40,20 +39,44 @@ export function CustomCursor() {
     }, [cursorX, cursorY])
 
     return (
-        <motion.div
-            className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9999] mix-blend-difference"
-            style={{
-                translateX: cursorXSpring,
-                translateY: cursorYSpring,
-            }}
-            animate={{
-                scale: isHovering ? 1.5 : 1,
-            }}
-            transition={{
-                duration: 0.2,
-            }}
-        >
-            <div className="w-full h-full rounded-full bg-luxury-white opacity-70" />
-        </motion.div>
+        <>
+            {/* Outer gold ring */}
+            <motion.div
+                className="fixed top-0 left-0 pointer-events-none z-[9999]"
+                style={{
+                    translateX: cursorXSpring,
+                    translateY: cursorYSpring,
+                    width: isHovering ? 48 : 32,
+                    height: isHovering ? 48 : 32,
+                }}
+                animate={{
+                    width: isHovering ? 48 : 32,
+                    height: isHovering ? 48 : 32,
+                }}
+                transition={{
+                    duration: 0.2,
+                }}
+            >
+                <div
+                    className="w-full h-full rounded-full border-2 border-luxury-gold opacity-80"
+                    style={{
+                        boxShadow: '0 0 10px rgba(198, 164, 63, 0.3)'
+                    }}
+                />
+            </motion.div>
+
+            {/* Inner gold dot */}
+            <motion.div
+                className="fixed top-0 left-0 pointer-events-none z-[10000]"
+                style={{
+                    translateX: cursorXSpring,
+                    translateY: cursorYSpring,
+                    width: 4,
+                    height: 4,
+                }}
+            >
+                <div className="w-full h-full rounded-full bg-luxury-gold" />
+            </motion.div>
+        </>
     )
 }

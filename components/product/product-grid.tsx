@@ -37,6 +37,7 @@ const products = [
 export function ProductGrid() {
     const [hoveredId, setHoveredId] = useState<number | null>(null)
     const [mounted, setMounted] = useState(false)
+    const [addedToCart, setAddedToCart] = useState<number | null>(null)
     const addToCart = useCartStore((state) => state.addItem)
 
     useEffect(() => {
@@ -45,6 +46,18 @@ export function ProductGrid() {
 
     if (!mounted) {
         return null
+    }
+
+    const handleAddToCart = (product: typeof products[0]) => {
+        addToCart({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            quantity: 1
+        })
+        setAddedToCart(product.id)
+        setTimeout(() => setAddedToCart(null), 2000)
     }
 
     return (
@@ -86,18 +99,19 @@ export function ProductGrid() {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                {/* Minimalist White Button - Ultra High-End */}
                                 <button
-                                    onClick={() => addToCart({
-                                        id: product.id,
-                                        name: product.name,
-                                        price: product.price,
-                                        image: product.image,
-                                        quantity: 1
-                                    })}
-                                    className="absolute bottom-6 left-1/2 transform -translate-x-1/2 px-8 py-3 bg-luxury-gold text-luxury-black text-sm tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 hover:scale-105"
+                                    onClick={() => handleAddToCart(product)}
+                                    className="absolute bottom-6 left-1/2 transform -translate-x-1/2 px-8 py-3 bg-white text-black text-sm font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 hover:scale-105 rounded-none"
                                 >
-                                    ADD TO CART
+                                    {addedToCart === product.id ? '✓ ADDED' : 'ADD TO CART'}
                                 </button>
+
+                                {/* Minimalist Quick View Indicator */}
+                                <div className="absolute top-4 right-4 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
+                                    <span className="text-black text-xs font-bold">→</span>
+                                </div>
                             </div>
                             <div className="text-center transform transition-all duration-500 group-hover:translate-y-[-5px]">
                                 <p className="text-xs text-luxury-gold tracking-wider mb-2">{product.category}</p>
