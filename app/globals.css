@@ -1,16 +1,14 @@
-/* Hide default cursor */
-* {
-  cursor: none;
+/* Hide default cursor on desktop */
+@media (min-width: 768px) {
+  * {
+    cursor: none;
+  }
 }
 
 /* Show default cursor on mobile */
 @media (max-width: 768px) {
   * {
     cursor: auto;
-  }
-
-  .fixed-cursor {
-    display: none;
   }
 }
 
@@ -39,4 +37,42 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom scrollbar - luxury minimal */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1A1A1A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C6A43F;
+  border-radius: 9999px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(198, 164, 63, 0.3);
+  color: #FFFFFF;
+}
+
+/* Glass effect utility */
+.glass-effect {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gold gradient utility */
+.gold-gradient {
+  background: linear-gradient(135deg, #C6A43F 0%, #E8D5A5 50%, #C6A43F 100%);
 }

@@ -4,12 +4,16 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ShoppingBag, Menu, X } from 'lucide-react'
+import { useCartStore } from '@/store/cartStore'
 
 export function Navigation() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [mounted, setMounted] = useState(false)
+    const { toggleCart, getTotalItems } = useCartStore()
 
     useEffect(() => {
+        setMounted(true)
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50)
         }
@@ -56,11 +60,13 @@ export function Navigation() {
                     </div>
 
                     {/* Cart Icon */}
-                    <button className="relative group">
+                    <button onClick={toggleCart} className="relative group">
                         <ShoppingBag className="w-5 h-5" />
-                        <span className="absolute -top-2 -right-2 w-4 h-4 bg-luxury-gold rounded-full text-[10px] flex items-center justify-center text-luxury-black">
-                            0
-                        </span>
+                        {mounted && getTotalItems() > 0 && (
+                            <span className="absolute -top-2 -right-2 w-4 h-4 bg-luxury-gold rounded-full text-[10px] flex items-center justify-center text-luxury-black">
+                                {getTotalItems()}
+                            </span>
+                        )}
                     </button>
 
                     {/* Mobile Menu Button */}

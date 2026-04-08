@@ -1,8 +1,7 @@
-
 'use client'
-
+import { useCartStore } from '@/store/cartStore'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const products = [
     {
@@ -37,6 +36,16 @@ const products = [
 
 export function ProductGrid() {
     const [hoveredId, setHoveredId] = useState<number | null>(null)
+    const [mounted, setMounted] = useState(false)
+    const addToCart = useCartStore((state) => state.addItem)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return null
+    }
 
     return (
         <div className="py-32 px-6 bg-luxury-black">
@@ -77,8 +86,17 @@ export function ProductGrid() {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <button className="absolute bottom-6 left-1/2 transform -translate-x-1/2 px-8 py-3 bg-luxury-gold text-luxury-black text-sm tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 hover:scale-105">
-                                    SHOP NOW
+                                <button
+                                    onClick={() => addToCart({
+                                        id: product.id,
+                                        name: product.name,
+                                        price: product.price,
+                                        image: product.image,
+                                        quantity: 1
+                                    })}
+                                    className="absolute bottom-6 left-1/2 transform -translate-x-1/2 px-8 py-3 bg-luxury-gold text-luxury-black text-sm tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 hover:scale-105"
+                                >
+                                    ADD TO CART
                                 </button>
                             </div>
                             <div className="text-center transform transition-all duration-500 group-hover:translate-y-[-5px]">
