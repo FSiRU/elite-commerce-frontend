@@ -1,3 +1,19 @@
+/* Hide default cursor */
+* {
+  cursor: none;
+}
+
+/* Show default cursor on mobile */
+@media (max-width: 768px) {
+  * {
+    cursor: auto;
+  }
+
+  .fixed-cursor {
+    display: none;
+  }
+}
+
 @import "tailwindcss";
 
 :root {
