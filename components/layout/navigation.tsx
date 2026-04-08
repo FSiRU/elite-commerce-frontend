@@ -21,23 +21,16 @@ export function Navigation() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    // Debug: log cart functions
-    useEffect(() => {
-        if (mounted) {
-            console.log('Cart store loaded:', { toggleCart, getTotalItems })
-        }
-    }, [mounted, toggleCart, getTotalItems])
-
     const handleCartClick = () => {
-        console.log('Cart button clicked')
         toggleCart()
     }
 
+    // Updated navigation items - minimal menu
     const navItems = [
+        { name: 'HOME', href: '/' },
         { name: 'COLLECTION', href: '/collection' },
-        { name: 'EDITORIALS', href: '/editorials' },
-        { name: 'ATELIER', href: '/atelier' },
-        { name: 'CONCIERGE', href: '/concierge' },
+        { name: 'ABOUT', href: '/about' },
+        { name: 'CONTACT US', href: '/contact' },
     ]
 
     return (
@@ -58,7 +51,7 @@ export function Navigation() {
                         <div className="absolute -bottom-1 left-0 w-0 h-px bg-luxury-gold transition-all duration-500 group-hover:w-full" />
                     </Link>
 
-                    {/* Desktop Navigation */}
+                    {/* Desktop Navigation - Minimal Menu */}
                     <div className="hidden md:flex items-center space-x-12">
                         {navItems.map((item) => (
                             <Link
@@ -71,7 +64,7 @@ export function Navigation() {
                         ))}
                     </div>
 
-                    {/* Cart Icon - Updated with handleCartClick */}
+                    {/* Cart Icon */}
                     <button
                         onClick={handleCartClick}
                         className="relative group cursor-pointer"
