@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ShoppingBag, Menu, X } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
+import { OrbitSearch } from '@/components/search/OrbitSearch'
 
 export function Navigation() {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -63,34 +64,40 @@ export function Navigation() {
                         ))}
                     </div>
 
-                    {/* Cart Icon */}
-                    <button
-                        onClick={handleCartClick}
-                        className="relative group cursor-pointer"
-                        aria-label="Shopping cart"
-                    >
-                        <ShoppingBag className="w-5 h-5 text-foreground" />
-                        {mounted && getTotalItems() > 0 && (
-                            <span className="absolute -top-2 -right-2 w-4 h-4 bg-luxury-gold rounded-full text-[10px] flex items-center justify-center text-black">
-                                {getTotalItems()}
-                            </span>
-                        )}
-                    </button>
+                    {/* Right side: Search + Cart */}
+                    <div className="flex items-center gap-4">
+                        {/* Orbit Search Component */}
+                        <OrbitSearch />
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="md:hidden"
-                    >
-                        {isMobileMenuOpen ? (
-                            <X className="w-6 h-6 text-foreground" />
-                        ) : (
-                            <Menu className="w-6 h-6 text-foreground" />
-                        )}
-                    </button>
+                        {/* Cart Icon */}
+                        <button
+                            onClick={handleCartClick}
+                            className="relative group cursor-pointer"
+                            aria-label="Shopping cart"
+                        >
+                            <ShoppingBag className="w-5 h-5 text-foreground" />
+                            {mounted && getTotalItems() > 0 && (
+                                <span className="absolute -top-2 -right-2 w-4 h-4 bg-luxury-gold rounded-full text-[10px] flex items-center justify-center text-black">
+                                    {getTotalItems()}
+                                </span>
+                            )}
+                        </button>
+
+                        {/* Mobile Menu Button */}
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="md:hidden"
+                        >
+                            {isMobileMenuOpen ? (
+                                <X className="w-6 h-6 text-foreground" />
+                            ) : (
+                                <Menu className="w-6 h-6 text-foreground" />
+                            )}
+                        </button>
+                    </div>
                 </div>
 
-                {/* Mobile Menu - Now with solid background for visibility */}
+                {/* Mobile Menu */}
                 {isMobileMenuOpen && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
