@@ -42,6 +42,9 @@ export default function ProductClient({
     }
 
     const handleAddToCart = () => {
+        if (!selectedSize || !selectedColor) {
+            return // Don't add if no size/color selected
+        }
         addToCart({
             id: product.id,
             name: product.name,
@@ -93,8 +96,8 @@ export default function ProductClient({
                                         key={size}
                                         onClick={() => setSelectedSize(size)}
                                         className={`px-6 py-2 border transition-colors ${selectedSize === size
-                                                ? 'border-luxury-gold bg-luxury-gold text-black'
-                                                : 'border-border hover:border-luxury-gold text-foreground'
+                                            ? 'border-luxury-gold bg-luxury-gold text-black'
+                                            : 'border-border hover:border-luxury-gold text-foreground'
                                             }`}
                                     >
                                         {size}
@@ -112,8 +115,8 @@ export default function ProductClient({
                                         key={color}
                                         onClick={() => setSelectedColor(color)}
                                         className={`px-6 py-2 border transition-colors ${selectedColor === color
-                                                ? 'border-luxury-gold bg-luxury-gold text-black'
-                                                : 'border-border hover:border-luxury-gold text-foreground'
+                                            ? 'border-luxury-gold bg-luxury-gold text-black'
+                                            : 'border-border hover:border-luxury-gold text-foreground'
                                             }`}
                                     >
                                         {color}
@@ -142,17 +145,24 @@ export default function ProductClient({
                             </div>
                         </div>
 
-                        {/* Add to Cart Button */}
+                        {/* Add to Cart Button - Gold border, hover turns gold */}
                         <button
                             onClick={handleAddToCart}
-                            className="w-full py-4 bg-luxury-gold text-black font-medium hover:bg-luxury-gold/90 transition-colors"
+                            className={`
+                                w-full py-4 border transition-all duration-300 font-medium
+                                ${selectedSize && selectedColor
+                                    ? 'border-luxury-gold text-foreground hover:bg-luxury-gold hover:text-black hover:border-luxury-gold cursor-pointer'
+                                    : 'border-border text-foreground/50 cursor-not-allowed'
+                                }
+                            `}
+                            disabled={!selectedSize || !selectedColor}
                         >
-                            Add to Cart
+                            ADD TO CART
                         </button>
 
-                        {/* Additional Info */}
+                        {/* Additional Info - Black text */}
                         <div className="pt-6 border-t border-border">
-                            <p className="text-sm text-foreground/50">{product.details}</p>
+                            <p className="text-sm text-black dark:text-white/70">{product.details}</p>
                         </div>
                     </div>
                 </div>
