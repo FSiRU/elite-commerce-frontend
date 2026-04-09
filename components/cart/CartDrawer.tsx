@@ -25,7 +25,7 @@ export function CartDrawer() {
                 }}
             />
 
-            {/* Cart Drawer */}
+            {/* Cart Drawer - Theme-aware */}
             <div
                 style={{
                     position: 'fixed',
@@ -34,7 +34,7 @@ export function CartDrawer() {
                     bottom: 0,
                     width: '450px',
                     maxWidth: '90vw',
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: 'var(--background)',
                     zIndex: 9999,
                     overflowY: 'auto',
                     boxShadow: '-2px 0 10px rgba(0,0,0,0.1)',
@@ -44,13 +44,13 @@ export function CartDrawer() {
                 <div
                     style={{
                         padding: '24px',
-                        borderBottom: '1px solid #e5e5e5',
+                        borderBottom: '1px solid var(--border)',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}
                 >
-                    <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#000' }}>Your Cart</h2>
+                    <h2 style={{ fontSize: '20px', fontWeight: '600', color: 'var(--foreground)' }}>Your Cart</h2>
                     <button
                         onClick={closeCart}
                         style={{
@@ -62,9 +62,10 @@ export function CartDrawer() {
                             cursor: 'pointer',
                             background: 'transparent',
                             border: 'none',
+                            color: 'var(--foreground)',
                         }}
                     >
-                        <X size={20} color="#666" />
+                        <X size={20} />
                     </button>
                 </div>
 
@@ -72,14 +73,14 @@ export function CartDrawer() {
                 <div style={{ padding: '24px', minHeight: 'calc(100vh - 200px)' }}>
                     {items.length === 0 ? (
                         <div style={{ textAlign: 'center', padding: '40px 0' }}>
-                            <p style={{ color: '#666' }}>Your cart is empty</p>
+                            <p style={{ color: 'var(--foreground)', opacity: 0.6 }}>Your cart is empty</p>
                             <button
                                 onClick={closeCart}
                                 style={{
                                     marginTop: '16px',
                                     padding: '10px 24px',
-                                    background: '#000',
-                                    color: '#fff',
+                                    background: 'var(--foreground)',
+                                    color: 'var(--background)',
                                     border: 'none',
                                     cursor: 'pointer',
                                 }}
@@ -96,7 +97,7 @@ export function CartDrawer() {
                                     gap: '16px',
                                     marginBottom: '24px',
                                     paddingBottom: '24px',
-                                    borderBottom: '1px solid #f0f0f0',
+                                    borderBottom: '1px solid var(--border)',
                                 }}
                             >
                                 {/* Product Image */}
@@ -112,10 +113,10 @@ export function CartDrawer() {
 
                                 {/* Product Details */}
                                 <div style={{ flex: 1 }}>
-                                    <h3 style={{ fontSize: '14px', fontWeight: '500', marginBottom: '4px', color: '#000' }}>
+                                    <h3 style={{ fontSize: '14px', fontWeight: '500', marginBottom: '4px', color: 'var(--foreground)' }}>
                                         {item.name}
                                     </h3>
-                                    <p style={{ fontSize: '16px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>
+                                    <p style={{ fontSize: '16px', fontWeight: '600', color: '#C6A43F', marginBottom: '8px' }}>
                                         {item.price}
                                     </p>
 
@@ -126,17 +127,18 @@ export function CartDrawer() {
                                             style={{
                                                 width: '28px',
                                                 height: '28px',
-                                                border: '1px solid #ddd',
-                                                background: '#fff',
+                                                border: '1px solid var(--border)',
+                                                background: 'var(--background)',
                                                 cursor: 'pointer',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
+                                                color: 'var(--foreground)',
                                             }}
                                         >
                                             <Minus size={12} />
                                         </button>
-                                        <span style={{ fontSize: '14px', minWidth: '20px', textAlign: 'center' }}>
+                                        <span style={{ fontSize: '14px', minWidth: '20px', textAlign: 'center', color: 'var(--foreground)' }}>
                                             {item.quantity}
                                         </span>
                                         <button
@@ -144,12 +146,13 @@ export function CartDrawer() {
                                             style={{
                                                 width: '28px',
                                                 height: '28px',
-                                                border: '1px solid #ddd',
-                                                background: '#fff',
+                                                border: '1px solid var(--border)',
+                                                background: 'var(--background)',
                                                 cursor: 'pointer',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
+                                                color: 'var(--foreground)',
                                             }}
                                         >
                                             <Plus size={12} />
@@ -181,8 +184,8 @@ export function CartDrawer() {
                             bottom: 0,
                             width: '100%',
                             padding: '20px 24px',
-                            borderTop: '1px solid #e5e5e5',
-                            backgroundColor: '#FFFFFF',
+                            borderTop: '1px solid var(--border)',
+                            backgroundColor: 'var(--background)',
                         }}
                     >
                         <div
@@ -192,7 +195,7 @@ export function CartDrawer() {
                                 marginBottom: '16px',
                                 fontSize: '16px',
                                 fontWeight: '500',
-                                color: '#000',
+                                color: 'var(--foreground)',
                             }}
                         >
                             <span>Subtotal</span>
@@ -204,8 +207,8 @@ export function CartDrawer() {
                                 style={{
                                     width: '100%',
                                     padding: '14px',
-                                    backgroundColor: '#000',
-                                    color: '#fff',
+                                    backgroundColor: 'var(--foreground)',
+                                    color: 'var(--background)',
                                     border: 'none',
                                     fontSize: '14px',
                                     fontWeight: '500',
