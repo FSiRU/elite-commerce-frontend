@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 export interface CartItem {
     id: number
@@ -20,6 +20,7 @@ interface CartStore {
     clearCart: () => void
     getTotalItems: () => number
     getTotalPrice: () => string
+    hydrate: () => void // Force rehydrate from storage
 }
 
 export const useCartStore = create<CartStore>()(
@@ -30,30 +31,41 @@ export const useCartStore = create<CartStore>()(
 
             addItem: (item) => {
                 const existingItem = get().items.find((i) => i.id === item.id)
+                let newItems
                 if (existingItem) {
-                    set({
-                        items: get().items.map((i) =>
-                            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-                        ),
-                    })
+                    newItems = get().items.map((i) =>
+                        i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+                    )
+                    set({ items: newItems })
                 } else {
-                    set({ items: [...get().items, { ...item, quantity: 1 }] })
+                    newItems = [...get().items, { ...item, quantity: 1 }]
+                    set({ items: newItems })
+                }
+                // Save to localStorage immediately for extra safety
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('cart-storage', JSON.stringify({ state: { items: newItems } }))
                 }
             },
 
             removeItem: (id) => {
-                set({ items: get().items.filter((i) => i.id !== id) })
+                const newItems = get().items.filter((i) => i.id !== id)
+                set({ items: newItems })
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('cart-storage', JSON.stringify({ state: { items: newItems } }))
+                }
             },
 
             updateQuantity: (id, quantity) => {
                 if (quantity <= 0) {
                     get().removeItem(id)
                 } else {
-                    set({
-                        items: get().items.map((i) =>
-                            i.id === id ? { ...i, quantity } : i
-                        ),
-                    })
+                    const newItems = get().items.map((i) =>
+                        i.id === id ? { ...i, quantity } : i
+                    )
+                    set({ items: newItems })
+                    if (typeof window !== 'undefined') {
+                        localStorage.setItem('cart-storage', JSON.stringify({ state: { items: newItems } }))
+                    }
                 }
             },
 
@@ -61,7 +73,12 @@ export const useCartStore = create<CartStore>()(
 
             closeCart: () => set({ isOpen: false }),
 
-            clearCart: () => set({ items: [] }),
+            clearCart: () => {
+                set({ items: [] })
+                if (typeof window !== 'undefined') {
+                    localStorage.removeItem('cart-storage')
+                }
+            },
 
             getTotalItems: () => {
                 return get().items.reduce((total, item) => total + item.quantity, 0)
@@ -76,9 +93,27 @@ export const useCartStore = create<CartStore>()(
                 }, 0)
                 return `KSh ${total.toLocaleString()}`
             },
+
+            hydrate: () => {
+                if (typeof window !== 'undefined') {
+                    const stored = localStorage.getItem('cart-storage')
+                    if (stored) {
+                        try {
+                            const parsed = JSON.parse(stored)
+                            if (parsed.state && parsed.state.items) {
+                                set({ items: parsed.state.items })
+                            }
+                        } catch (e) {
+                            console.error('Failed to hydrate cart:', e)
+                        }
+                    }
+                }
+            },
         }),
         {
             name: 'cart-storage',
+            storage: createJSONStorage(() => localStorage),
+            partialize: (state) => ({ items: state.items }), // Only persist items, not isOpen
         }
     )
 )
