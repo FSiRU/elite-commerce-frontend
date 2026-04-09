@@ -11,8 +11,9 @@ export async function generateStaticParams() {
     ]
 }
 
-export default async function ProductPage({ params }: { params: { id: string } }) {
-    const productId = Number(params.id)
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params
+    const productId = Number(id)
     const product = getProduct(productId)
     const relatedProducts = getRelatedProducts(productId, 4)
 
