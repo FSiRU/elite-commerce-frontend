@@ -25,7 +25,6 @@ export function Navigation() {
         toggleCart()
     }
 
-    // Updated navigation items - minimal menu
     const navItems = [
         { name: 'HOME', href: '/' },
         { name: 'COLLECTION', href: '/collection' },
@@ -38,26 +37,26 @@ export function Navigation() {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.6 }}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-luxury-black/95 backdrop-blur-md' : 'bg-transparent'
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-background/95 backdrop-blur-md shadow-lg' : 'bg-background/80 backdrop-blur-sm'
                 }`}
         >
             <div className="max-w-7xl mx-auto px-6 py-6">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="group relative">
-                        <h1 className="text-2xl tracking-widest-ultra font-display">
+                        <h1 className="text-2xl tracking-widest-ultra font-display text-foreground">
                             ÃLYSÉE
                         </h1>
                         <div className="absolute -bottom-1 left-0 w-0 h-px bg-luxury-gold transition-all duration-500 group-hover:w-full" />
                     </Link>
 
-                    {/* Desktop Navigation - Minimal Menu */}
+                    {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-12">
                         {navItems.map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="text-sm tracking-wider hover:text-luxury-gold transition-colors duration-300"
+                                className="text-sm tracking-wider text-foreground hover:text-luxury-gold transition-colors duration-300"
                             >
                                 {item.name}
                             </Link>
@@ -70,9 +69,9 @@ export function Navigation() {
                         className="relative group cursor-pointer"
                         aria-label="Shopping cart"
                     >
-                        <ShoppingBag className="w-5 h-5" />
+                        <ShoppingBag className="w-5 h-5 text-foreground" />
                         {mounted && getTotalItems() > 0 && (
-                            <span className="absolute -top-2 -right-2 w-4 h-4 bg-luxury-gold rounded-full text-[10px] flex items-center justify-center text-luxury-black">
+                            <span className="absolute -top-2 -right-2 w-4 h-4 bg-luxury-gold rounded-full text-[10px] flex items-center justify-center text-black">
                                 {getTotalItems()}
                             </span>
                         )}
@@ -83,23 +82,27 @@ export function Navigation() {
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className="md:hidden"
                     >
-                        {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                        {isMobileMenuOpen ? (
+                            <X className="w-6 h-6 text-foreground" />
+                        ) : (
+                            <Menu className="w-6 h-6 text-foreground" />
+                        )}
                     </button>
                 </div>
 
-                {/* Mobile Menu */}
+                {/* Mobile Menu - Now with solid background for visibility */}
                 {isMobileMenuOpen && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden pt-8 pb-4 space-y-4"
+                        className="md:hidden mt-6 pt-6 pb-4 space-y-4 bg-background border-t border-border"
                     >
                         {navItems.map((item) => (
                             <Link
                                 key={item.name}
                                 href={item.href}
-                                className="block text-lg tracking-wider hover:text-luxury-gold transition-colors"
+                                className="block text-lg tracking-wider text-foreground hover:text-luxury-gold transition-colors"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 {item.name}
