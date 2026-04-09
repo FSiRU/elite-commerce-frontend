@@ -116,7 +116,7 @@ export function CartDrawer() {
                                     <h3 style={{ fontSize: '14px', fontWeight: '500', marginBottom: '4px', color: 'var(--foreground)' }}>
                                         {item.name}
                                     </h3>
-                                    <p style={{ fontSize: '16px', fontWeight: '600', color: '#C6A43F', marginBottom: '8px' }}>
+                                    <p style={{ fontSize: '16px', fontWeight: '600', color: 'var(--foreground)', marginBottom: '8px' }}>
                                         {item.price}
                                     </p>
 
