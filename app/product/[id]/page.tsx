@@ -3,12 +3,10 @@ import ProductClient from './ProductClient'
 
 // Generate static params for all product IDs (required for static export)
 export async function generateStaticParams() {
-    return [
-        { id: '1' },
-        { id: '2' },
-        { id: '3' },
-        { id: '4' },
-    ]
+    // Generate IDs from 1 to 20
+    return Array.from({ length: 20 }, (_, i) => ({
+        id: String(i + 1)
+    }))
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
